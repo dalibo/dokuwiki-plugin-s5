@@ -131,13 +131,22 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
             }
         }
 
-        if($level == 2){
+        if($level == 2 or $level == 3){
             if($this->slideopen){
                 $this->doc .= '</div>'.DOKU_LF; //close previous slide
             }
             $this->doc .= '<div class="slide">'.DOKU_LF;
             $this->slideopen = true;
         }
+
+        if ($level == 4){
+            if($this->slideopen){
+                $this->doc .= '</div>'.DOKU_LF; //close previous slide
+            }
+            $this->doc .= '<div class="slide_level4">'.DOKU_LF;
+            $this->slideopen = true;
+        }
+
         $this->doc .= '<h'.($level-1).'>';
         $this->doc .= $this->_xmlEntities($text);
         $this->doc .= '</h'.($level-1).'>'.DOKU_LF;
@@ -147,10 +156,10 @@ class renderer_plugin_s5 extends Doku_Renderer_xhtml {
      * Top-Level Sections are slides
      */
     function section_open($level) {
-        if($level < 3){
+        if($level < 4){
             $this->doc .= '<div class="slidecontent">'.DOKU_LF;
         }else{
-            $this->doc .= '<div>'.DOKU_LF;
+            $this->doc .= '<div class="slidecontent_level'.$level.'">'.DOKU_LF;
         }
         // we don't use it 
     }
